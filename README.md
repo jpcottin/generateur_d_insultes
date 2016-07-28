@@ -1,2 +1,2 @@
 # generateur_d_insultes
-French insult generator  - Générateur d'insultes en Français
+Python French insult generator  - Générateur d'insultes en Français en python
