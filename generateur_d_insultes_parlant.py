@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # This Python file uses the following encoding: utf-8
-import os,sys,random,time
+import os,sys,random,time,copy
 import pyttsx
 
 insultes=['Abruti' ,'Ahuri' ,'Aigrefin','Anachorète' ,'Analphabète' ,'Andouille' ,'Anus De Poulpe' ,'Arsouille' ,'Aspirateur A Muscadet' ,'Assisté' ,'Asticot' ,'Attardé' ,'Avorton' ,'Babache' ,\
@@ -44,11 +44,26 @@ insultes=['Abruti' ,'Ahuri' ,'Aigrefin','Anachorète' ,'Analphabète' ,'Andouill
 engine = pyttsx.init()
 engine.setProperty('rate', 70)
 
+qc_voice= None 
+fr_voice= None
+
 voices = engine.getProperty('voices')
+for voice in voices:
+#    print voice.languages
+    if "fr-FR" in voice.languages:
+        fr_voice=copy.deepcopy(voice)
+    if "fr-CA" in voice.languages:
+        qc_voice=copy.deepcopy(voice)
+# TODO : we can also exit this loop when we find a fr-FR voice
 
-engine.setProperty('voice', voices[5].id) # TODO check if the voice used is always a French one (voices[5] as tested) 
+if fr_voice == None:
+    engine.setProperty('voice', qc_voice.id)
+else:
+    engine.setProperty('voice', fr_voice.id)
+# TODO  Have another fallback if not French voice)
 
-# the "print voices[5]" would return :
+
+# ex the "print voices[5]" would return :
 #<Voice id=com.apple.speech.synthesis.voice.amelie
 #          name=Amelie
 #          languages=[u'fr-CA']
